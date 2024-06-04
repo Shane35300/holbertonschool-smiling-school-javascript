@@ -1,12 +1,8 @@
 $(document).ready(function () {
-	console.log("c'est bon");
-	console.log("avant la requète");
 	$.ajax({
 		url: "https://smileschool-api.hbtn.info/quotes",
 		method: "GET",
 		success: function(response) {
-			console.log("il y a une réponse");
-			console.log(response);
 			const allQuotes = $('<div class="carousel-inner"></div>');
 			let i = 0;
 
@@ -66,5 +62,14 @@ $(document).ready(function () {
 			console.log('il y a une erreur');
 		}
 	});
-	console.log("après la requète");
+	$.ajax({
+		url: "https://smileschool-api.hbtn.info/popular-tutorials",
+		method: "GET",
+		success: function(response) {
+			console.log(response);
+		},
+		error: function() {
+			console.log("error");
+		}
+	});
 });
