@@ -15,7 +15,7 @@ $(document).ready(function () {
 				let classStatus = "carousel-item";
 				if (i === 0) {
 					classStatus = "carousel-item active";
-					i = 1
+					i = 1;
 				}
 
 				const quote = $(`
@@ -48,7 +48,7 @@ $(document).ready(function () {
 					<span class="sr-only">Next</span>
 				</a>
 			`);
-
+			console.log("avant append");
 			const carouselInner = $('<div class="carousel-inner"></div>');
 			carouselInner.append(allQuotes, arrows);
 			$('#carouselExampleControls').empty();
@@ -65,8 +65,7 @@ $(document).ready(function () {
 		success: function(response) {
 			console.log(response);
 			const allTutos = $('<div class="carousel-inner"></div>');
-			let i = 0;
-			let x = 0;
+
 
 			for (item of response) {
 				const author = item.author;
@@ -80,9 +79,9 @@ $(document).ready(function () {
 				const authorPicture = authorPictureList[3];
 				const picture = pictureList[3];
 				let classStatus = "carousel-item";
+				let x = 0;
 				if (id === 1) {
 					classStatus = "carousel-item active";
-					i = 1
 				}
 				const rating = $('<div class="rating"></div>');
 				while (x < 5) {
@@ -93,6 +92,7 @@ $(document).ready(function () {
 						const starOff = $('<img src="images/star_off.png" alt="star on" width="15px"/>');
 						rating.append(starOff);
 					}
+					x += 1;
 				}
 
 				const tuto = $(`
@@ -112,7 +112,7 @@ $(document).ready(function () {
 											<h6 class="pl-3 m-0 main-color">${author}</h6>
 										</div>
 										<div class="info pt-3 d-flex justify-content-between">
-											${rating}
+											${rating.prop('outerHTML')}
 											<span class="main-color">${duration}</span>
 										</div>
 									</div>
@@ -121,8 +121,20 @@ $(document).ready(function () {
 						</div>
 					</div>
 				`);
+
 				allTutos.append(tuto);
 			}
+			const arrows = $(`
+				<a class="carousel-control-prev arrow-left" href="#carouselExampleControls2" role="button" data-slide="prev">
+					<img src="images/arrow_black_left.png" alt="Quote Previous" aria-hidden="true"/>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a class="carousel-control-next arrow-right" href="#carouselExampleControls2" role="button" data-slide="next">
+					<img src="images/arrow_black_right.png" alt="Quote Next" aria-hidden="true"/>
+					<span class="sr-only">Next</span>
+				</a>
+				`);
+			allTutos.append(arrows);
 			$('#carouselExampleControls2').empty();
 			$('#carouselExampleControls2').append(allTutos);
 		},
