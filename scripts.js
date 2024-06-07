@@ -50,9 +50,9 @@ $(document).ready(function () {
 			`);
 			console.log("avant append");
 			const carouselInner = $('<div class="carousel-inner"></div>');
-			carouselInner.append(allQuotes, arrows);
+			carouselInner.append(allQuotes);
 			$('#carouselExampleControls').empty();
-			$('#carouselExampleControls').append(carouselInner);
+			$('#carouselExampleControls').append(carouselInner, arrows);
 			$(".arrow-right").css("z-index", 1000);
 		},
 		error: function() {
@@ -66,7 +66,6 @@ $(document).ready(function () {
 			console.log(response);
 			const allTutos = $('<div class="carousel-inner"></div>');
 
-
 			for (item of response) {
 				const author = item.author;
 				const duration = item.duration;
@@ -78,44 +77,37 @@ $(document).ready(function () {
 				const authorPictureList = item.author_pic_url.split('/');
 				const authorPicture = authorPictureList[3];
 				const picture = pictureList[3];
-				let classStatus = "carousel-item";
 				let x = 0;
-				if (id === 1) {
-					classStatus = "carousel-item active";
-				}
+
 				const rating = $('<div class="rating"></div>');
 				while (x < 5) {
 					if (x <= star - 1) {
-						const starOn = $('<img src="images/star_on.png" alt="star on" width="15px"/>');
+						const starOn = $('<img src="images/star_on.png" alt="star on" width="15px" height="15px"/>');
 						rating.append(starOn);
 					} else {
-						const starOff = $('<img src="images/star_off.png" alt="star on" width="15px"/>');
+						const starOff = $('<img src="images/star_off.png" alt="star on" width="15px" height="15px"/>');
 						rating.append(starOff);
 					}
 					x += 1;
 				}
 
 				const tuto = $(`
-					<div class="${classStatus}">
-						<div class="row align-items-center mx-auto">
-							<div class="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-center justify-content-md-end justify-content-lg-center">
-								<div class="card">
-									<img src="images/${picture}" class="card-img-top" alt="Video thumbnail"/>
-									<div class="card-img-overlay text-center">
-										<img src="images/play.png" alt="Play" width="64px" class="align-self-center play-overlay"/>
-									</div>
-									<div class="card-body">
-										<h5 class="card-title font-weight-bold">${title}</h5>
-										<p class="card-text text-muted">${subTitle}</p>
-										<div class="creator d-flex align-items-center">
-											<img src="images/${authorPicture}" alt="Creator of Video" width="30px" class="rounded-circle"/>
-											<h6 class="pl-3 m-0 main-color">${author}</h6>
-										</div>
-										<div class="info pt-3 d-flex justify-content-between">
-											${rating.prop('outerHTML')}
-											<span class="main-color">${duration}</span>
-										</div>
-									</div>
+					<div class="carousel-item">
+						<div class="card">
+							<img src="images/${picture}" class="card-img-top" alt="Video thumbnail"/>
+							<div class="card-img-overlay text-center">
+								<img src="images/play.png" alt="Play" width="64px" class="align-self-center play-overlay"/>
+							</div>
+							<div class="card-body">
+								<h5 class="card-title font-weight-bold">${title}</h5>
+								<p class="card-text text-muted">${subTitle}</p>
+								<div class="creator d-flex align-items-center">
+									<img src="images/${authorPicture}" alt="Creator of Video" width="30px" class="rounded-circle"/>
+									<h6 class="pl-3 m-0 main-color">${author}</h6>
+								</div>
+								<div class="info pt-3 d-flex justify-content-between">
+									${rating.prop('outerHTML')}
+									<span class="main-color">${duration}</span>
 								</div>
 							</div>
 						</div>
@@ -124,19 +116,41 @@ $(document).ready(function () {
 
 				allTutos.append(tuto);
 			}
-			const arrows = $(`
-				<a class="carousel-control-prev arrow-left" href="#carouselExampleControls2" role="button" data-slide="prev">
-					<img src="images/arrow_black_left.png" alt="Quote Previous" aria-hidden="true"/>
-					<span class="sr-only">Previous</span>
-				</a>
-				<a class="carousel-control-next arrow-right" href="#carouselExampleControls2" role="button" data-slide="next">
-					<img src="images/arrow_black_right.png" alt="Quote Next" aria-hidden="true"/>
-					<span class="sr-only">Next</span>
-				</a>
-				`);
-			allTutos.append(arrows);
-			$('#carouselExampleControls2').empty();
-			$('#carouselExampleControls2').append(allTutos);
+
+			$('#carouselExampleControls2').empty().append(allTutos);
+
+
+			// Initialize Slick Carousel
+			$('#carouselExampleControls2 .carousel-inner').slick({
+				slidesToShow: 4,
+				slidesToScroll: 1,
+				arrows: true,
+				prevArrow: '<button class="slick-prev arrow-left"><img src="images/arrow_black_left.png" alt="Previous" aria-hidden="true"/><span class="sr-only">Previous</span></button>',
+				nextArrow: '<button class="slick-next arrow-right"><img src="images/arrow_black_right.png" alt="Next" aria-hidden="true"/><span class="sr-only">Next</span></button>',
+				responsive: [
+					{
+						breakpoint: 1024,
+						settings: {
+							slidesToShow: 3,
+							slidesToScroll: 1,
+						}
+					},
+					{
+						breakpoint: 768,
+						settings: {
+							slidesToShow: 2,
+							slidesToScroll: 1,
+						}
+					},
+					{
+						breakpoint: 576,
+						settings: {
+							slidesToShow: 1,
+							slidesToScroll: 1,
+						}
+					}
+				]
+			});
 		},
 		error: function() {
 			console.log("error");
