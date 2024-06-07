@@ -294,6 +294,7 @@
 .slick-prev::before, .slick-next::before {
   display: none;
 }
+
 .slick-prev {
   position: absolute;
   top: 100px;
